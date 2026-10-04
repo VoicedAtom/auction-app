@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>JIDO Organiser Console</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%94%A8%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#EEF1F5;--ink:#0E1A2B;--mute:#4A5B73;--line:#C3CCD9;--sig:#F2B705;--sigink:#0E1A2B;--panel:#E2E7EF;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1A2B;--ink:#EEF1F5;--mute:#9AABC4;--line:#2A3C58;--panel:#14243B}}
+:root[data-theme="dark"]{--bg:#0E1A2B;--ink:#EEF1F5;--mute:#9AABC4;--line:#2A3C58;--panel:#14243B}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:"Bahnschrift","Arial Narrow","Helvetica Neue",system-ui,sans-serif}
+.screen{min-height:100vh;display:none;flex-direction:column;justify-content:center;padding:clamp(20px,5vw,64px);max-width:1100px;margin:0 auto}
+.screen.on{display:flex}
+.presents{color:var(--mute);font-size:1.05rem;margin:0 0 .5rem}
+h1{font-size:clamp(5rem,26vw,15rem);line-height:.82;margin:0;font-weight:800;letter-spacing:-.04em}
+h2{font-size:clamp(1.6rem,5vw,2.8rem);margin:.6rem 0 0;font-weight:700;letter-spacing:-.01em}
+.lede{max-width:56ch;font-size:1.15rem;line-height:1.55;color:var(--mute);margin:1.2rem 0 0}
+.flow{display:flex;flex-wrap:wrap;gap:.5rem;margin:2rem 0;padding:0;list-style:none}
+.flow li{border:2px solid var(--line);padding:.55rem 1rem;font-weight:700;font-size:1.05rem}
+.flow li+li::before{content:"\2192";margin-right:.7rem;color:var(--mute)}
+.paddle{display:inline-flex;align-items:baseline;gap:.8rem;background:var(--panel);border-left:6px solid var(--sig);padding:.8rem 1.2rem;margin-bottom:1.6rem}
+.paddle b{font-size:2rem;font-variant-numeric:tabular-nums;min-width:5ch}
+.paddle span{color:var(--mute)}
+button{font:inherit;font-weight:800;font-size:1.25rem;background:var(--sig);color:var(--sigink);border:0;padding:1rem 2.6rem;cursor:pointer;align-self:flex-start}
+button:hover{filter:brightness(1.08)}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+button.ghost{background:transparent;color:var(--ink);border:2px solid var(--line);font-size:1rem;padding:.7rem 1.4rem;margin-top:1.6rem}
+.field{display:flex;flex-direction:column;gap:.5rem;max-width:520px;margin:1.6rem 0 1.4rem}
+.field label{font-weight:700;font-size:1.05rem}
+.field input{font:inherit;font-size:1.5rem;font-weight:700;padding:.8rem 1rem;background:var(--panel);color:var(--ink);border:2px solid var(--line);border-bottom:6px solid var(--sig);border-radius:0}
+.field input:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.err{color:#C0392B;min-height:1.4em;margin:0;font-size:.95rem}
+.row{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.row button.ghost{margin-top:0}
+.team{color:var(--sig)}
+
+.screen.top{justify-content:flex-start}
+.list{display:grid;gap:.8rem;margin:1.4rem 0 6rem;padding:0;list-style:none}
+.card{background:var(--panel);border:2px solid var(--line);border-left:6px solid var(--line);padding:1rem 1.2rem}
+.card.sel{border-color:var(--sig);border-left-color:var(--sig)}
+.card.dim{opacity:.55}
+.card input{position:absolute;opacity:0;pointer-events:none}
+.card label{display:block;cursor:pointer}
+.card label:has(input:focus-visible){outline:3px solid var(--ink);outline-offset:4px}
+.card h3{margin:0 0 .4rem;font-size:1.3rem}
+.card p{margin:.2rem 0;line-height:1.45;color:var(--mute)}
+.card p b{color:var(--ink)}
+.card details{margin-top:.6rem}
+.card summary{cursor:pointer;font-weight:700}
+.bar{position:sticky;bottom:0;background:var(--bg);border-top:2px solid var(--line);margin:0 calc(-1*clamp(20px,5vw,64px));padding:.9rem clamp(20px,5vw,64px) calc(.9rem + env(safe-area-inset-bottom,0px));display:flex;gap:1rem;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.bar span{font-weight:700}
+.bar button{padding:.8rem 1.8rem;font-size:1.1rem}
+button:disabled{opacity:.4;cursor:not-allowed;filter:none}
+dialog{background:var(--bg);color:var(--ink);border:3px solid var(--sig);padding:1.6rem;max-width:min(92vw,460px)}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+dialog h3{margin:0 0 .6rem;font-size:1.4rem}
+dialog p{line-height:1.5;color:var(--mute);margin:0 0 1.2rem}
+
+.budget{background:var(--panel);border-left:6px solid var(--sig);padding:1.2rem 1.6rem;margin:1.4rem 0;display:inline-block}
+.budget small{display:block;color:var(--mute);font-size:1rem}
+.budget b{font-size:clamp(3rem,12vw,5.5rem);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.budget span{color:var(--mute);font-size:1.2rem;margin-left:.5rem}
+.rules{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin:0 0 1.6rem;padding:0;list-style:none;max-width:680px}
+.rules li{background:var(--bg);padding:.9rem 1.2rem;line-height:1.45}
+.rules li b{display:block}
+
+.stat{display:flex;gap:2rem;flex-wrap:wrap;margin:1rem 0}
+.stat div{background:var(--panel);border-left:6px solid var(--sig);padding:.6rem 1.1rem}
+.stat small{display:block;color:var(--mute)}
+.stat b{font-size:1.7rem;font-variant-numeric:tabular-nums}
+.lot{background:var(--panel);border:2px solid var(--line);border-left:6px solid var(--sig);padding:1.2rem 1.4rem;max-width:760px}
+.lot h3{font-size:clamp(1.6rem,5vw,2.4rem);margin:.2rem 0 .8rem}
+.lot p{margin:.3rem 0;line-height:1.5;color:var(--mute)}
+.lot p b{color:var(--ink)}
+.bidrow{display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;margin-top:1rem}
+.bidrow input{font:inherit;font-size:1.4rem;font-weight:700;width:9ch;padding:.6rem .8rem;background:var(--bg);color:var(--ink);border:2px solid var(--line);border-bottom:5px solid var(--sig);border-radius:0}
+.bidrow button,.adm button{font-size:1.05rem;padding:.7rem 1.4rem}
+.adm{margin-top:1.4rem;padding:1rem 1.2rem;border:2px dashed var(--line);max-width:760px}
+.adm p{margin:0 0 .7rem;color:var(--mute)}
+.win{color:var(--sig);font-weight:800}
+.note{color:var(--mute);max-width:60ch;line-height:1.5}
+.live{font-size:.95rem;font-weight:700;margin-left:.8rem;color:var(--mute)}
+.live::before{content:"";display:inline-block;width:.7rem;height:.7rem;border-radius:50%;background:var(--mute);margin-right:.4rem}
+.live.on::before{background:#2EAD5B}
+.rank{list-style:none;margin:.8rem 0;padding:0;border:1px solid var(--line)}
+.rank li{display:flex;gap:.8rem;align-items:baseline;padding:.55rem .9rem;background:var(--bg);border-bottom:1px solid var(--line)}
+.rank li:last-child{border-bottom:0}
+.rank li.cut{border-top:3px solid var(--sig)}
+.rank .n{width:2ch;color:var(--mute);font-variant-numeric:tabular-nums}
+.rank .t{flex:1;font-weight:700}
+.rank .a{font-variant-numeric:tabular-nums;font-weight:800}
+.rank .tag{color:var(--sig);font-weight:800;font-size:.9rem}
+.rank li.me{background:var(--panel)}
+.rank li.out{opacity:.6}
+.teams{max-width:760px;margin-top:1.4rem}
+.teams h3{margin:0 0 .4rem}
+.clock{font-variant-numeric:tabular-nums}
+.slotgrid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));margin:1rem 0}
+.lot.sm{max-width:none;padding:1rem}
+.lot.sm h3{font-size:1.25rem;margin:.1rem 0 .5rem}
+.lot details{margin:.4rem 0}
+.lot summary{cursor:pointer;color:var(--mute)}
+.bidrow input{width:7ch;font-size:1.15rem}
+.rules li button{margin-left:.5rem;padding:.3rem .9rem;font-size:.95rem}
+.tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin:1rem 0 .5rem}
+.tabs button{margin-top:0;padding:.6rem 1.2rem;font-size:1rem}
+.tab.on{background:var(--sig);color:var(--sigink);border-color:var(--sig)}
+#ccsv{width:100%;max-width:900px;font:.9rem ui-monospace,Menlo,Consolas,monospace;padding:.8rem;background:var(--panel);color:var(--ink);border:2px solid var(--line);border-radius:0}
+#console h3{margin:1.6rem 0 .5rem}
+#console .rules{max-width:900px}
+@media (prefers-reduced-motion:no-preference){.paddle b{transition:color .2s}.paddle b.tick{color:var(--sig)}}
+</style>
+</head>
+<body>
+<main>
+<section class="screen on" id="gate" aria-labelledby="gt">
+  <p class="presents">JIDO Engineering Auction</p>
+  <h2 id="gt">Organiser console</h2>
+  <p class="lede">This console is locked. Enter the organiser key to open it.</p>
+  <div class="bidrow"><input id="ckey" type="password" autocomplete="off" aria-label="Organiser key" style="width:18ch"><button id="cunlock" type="button">Unlock</button></div>
+  <p id="cgerr" role="alert" class="note"></p>
+</section>
+<section class="screen top" id="app" aria-labelledby="cn" hidden>
+  <p class="presents">Organiser</p>
+  <h2 id="cn">Organiser console<span class="live" id="clive">Offline</span></h2>
+  <div class="tabs" role="tablist"><button type="button" class="ghost tab on" data-p="dash">Dashboard</button><button type="button" class="ghost tab" data-p="halls">Halls and teams</button><button type="button" class="ghost tab" data-p="comps">Components</button><button type="button" class="ghost tab" data-p="res">Results</button></div>
+  <div class="cp" id="p-dash">
+    <div class="stat"><div><small>Slot</small><b id="cslot">-</b></div><div><small>Status</small><b id="cstat">-</b></div><div><small>Time left</small><b class="clock" id="cclock">-</b></div><div><small>Auto-run</small><b id="cauto">-</b></div></div>
+    <p class="note">The server runs the clock and settles slots by itself. You do not need to keep this page open.</p>
+    <div class="row" id="cbtns"></div>
+    <h3>Halls</h3><ul class="rules" id="challs"></ul>
+    <h3>Current slot</h3><ul class="rules" id="cslotl"></ul>
+  </div>
+  <div class="cp" id="p-halls" hidden><h3>Teams by hall</h3><ul class="rules" id="cteams"></ul></div>
+  <div class="cp" id="p-comps" hidden><h3>Slot schedule</h3><ul class="rules" id="ccat"></ul><h3>Shop stock</h3><ul class="rules" id="cshop"></ul></div>
+  <div class="cp" id="p-res" hidden><h3>Standings (most credits left first)</h3><ul class="rules" id="cres"></ul><div class="row" style="margin:1rem 0"><button id="cdl" type="button">Download results CSV</button></div></div>
+  <div class="row" style="margin-top:1.6rem"><button class="ghost" id="clock2" type="button">Lock console</button><button class="ghost" id="creset" type="button">Reset auction</button></div>
+</section>
+</main>
+<script>
+(async function(){
+  var $=function(i){return document.getElementById(i)};
+  var cfg=await (await fetch('/api/config')).json();
+  var ITEMS=cfg.items,BUDGET=cfg.budget,SHOP=cfg.shop,SLOTS=cfg.slots,HALLS=cfg.halls,CAP=cfg.cap;
+  var key=null,es=null,off=0,live=false;
+  var st={slot:-1,open:false,endsAt:0,auto:true,closedAt:0},res={},bids=[],buys=[],teamsL=[];
+  var fmt=function(n){return Number(n).toLocaleString('en-US')};
+  function el(t,h){var e=document.createElement(t);e.innerHTML=h;return e}
+  function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function hdr(){return {'content-type':'application/json','x-organiser-key':key}}
+  async function act(p){var r=await fetch('/api/org/'+p,{method:'POST',headers:hdr(),body:'{}'});var j=await r.json();if(!r.ok)throw new Error(j.error||'Failed');return j}
+  function spent(n){var s=0;Object.keys(res).forEach(function(k){res[k].winners.forEach(function(w){if(w.team===n)s+=w.amt})});buys.forEach(function(b){if(b.team===n)s+=b.price});return s}
+  function ranked(i,h){return bids.filter(function(b){return b.idx===i&&b.hall===h}).sort(function(a,b){return b.amt-a.amt||a.t-b.t})}
+  function owned(n){var o=[];Object.keys(res).forEach(function(k){res[k].winners.forEach(function(w){if(w.team===n)o.push({n:ITEMS[res[k].idx][1],p:w.amt})})});buys.forEach(function(b){if(b.team===n)o.push({n:ITEMS[b.item][1]+' (shop)',p:b.price})});return o}
+  function connect(){
+    if(es)return;
+    es=new EventSource('/api/org/events?key='+encodeURIComponent(key));
+    es.onerror=function(){live=false;render()};
+    es.onmessage=function(m){var d=JSON.parse(m.data);off=d.now-Date.now();st=d.state;res=d.results;bids=d.bids;buys=d.buys;teamsL=d.teams;live=true;render();tick()};
+  }
+  async function unlock(){
+    var v=$('ckey').value.trim(),g=$('cgerr');key=v;
+    try{var r=await fetch('/api/org/ping',{headers:hdr()});var j=await r.json();
+      if(!r.ok){g.textContent=j.error||'Wrong key.';key=null;$('ckey').value='';return}
+      try{sessionStorage.setItem('jido_org',v)}catch(e){}
+      g.textContent='';$('ckey').value='';$('gate').hidden=true;$('gate').classList.remove('on');$('app').hidden=false;$('app').classList.add('on');connect();render()}
+    catch(e){g.textContent='Cannot reach the server.';key=null}
+  }
+  function lock(){key=null;if(es){es.close();es=null}try{sessionStorage.removeItem('jido_org')}catch(e){}$('app').hidden=true;$('app').classList.remove('on');$('gate').hidden=false;$('gate').classList.add('on')}
+  function render(){
+    if(!key)return;
+    $('clive').textContent=live?'Live':'Offline';$('clive').classList.toggle('on',live);
+    var s=st.slot,done=s===SLOTS.length-1&&!st.open&&st.closedAt>0;
+    $('cslot').textContent=s>=0?(s+1)+' of '+SLOTS.length:'Not started';
+    $('cstat').textContent=s<0?'Waiting':(st.open?'Bidding open':(done?'Finished':'Between slots'));
+    $('cauto').textContent=st.auto!==false?'On':'Paused';
+    var bt=$('cbtns');bt.innerHTML='';
+    var add=function(l,p,g){var b=el('button',l);b.type='button';if(g)b.className='ghost';b.addEventListener('click',function(){b.disabled=true;act(p).catch(function(e){alert(e.message)}).then(function(){b.disabled=false})});bt.appendChild(b)};
+    if(s<0)add('Start auction','start');
+    else{
+      if(st.open)add('Close slot now','close');
+      else if(s+1<SLOTS.length)add('Open next slot now','next');
+      if(!done)add(st.auto!==false?'Pause auto-run':'Resume auto-run','auto',true);
+    }
+    var hl=$('challs');hl.innerHTML='';
+    for(var h=1;h<=HALLS;h++){var n=teamsL.filter(function(x){return x.hall===h}).length;hl.appendChild(el('li','<b>Hall '+h+'</b>'+n+' of '+CAP+' teams'+(n>=CAP?' (full)':'')))}
+    var hs=[];teamsL.forEach(function(x){if(hs.indexOf(x.hall)<0)hs.push(x.hall)});hs.sort(function(a,b){return a-b});
+    var sl=$('cslotl');sl.innerHTML='';
+    if(s>=0)SLOTS[s].forEach(function(i){var it=ITEMS[i];
+      sl.appendChild(el('li','<b>'+esc(it[1])+'</b>'+it[3]+' lots per hall, start '+it[4]+' JC. '+(hs.length?hs.map(function(h){var rk=ranked(i,h),r=res[h+'_'+i];return 'Hall '+h+': '+rk.length+' bid'+(rk.length===1?'':'s')+(rk.length?', top '+rk[0].amt+' JC':'')+(r?', settled':'')}).join(' | '):'No teams yet')))});
+    else sl.appendChild(el('li','<b>Nothing open</b>Slot 1 opens when you start the auction.'));
+    var rows=teamsL.map(function(x){var o=owned(x.name),sp=spent(x.name);return{n:x.name,h:x.hall,seat:x.seat,sp:sp,b:BUDGET-sp,o:o}});
+    var tl=$('cteams');tl.innerHTML='';
+    rows.slice().sort(function(a,b){return a.h-b.h||a.seat-b.seat}).forEach(function(r){tl.appendChild(el('li','<b>'+esc(r.n)+'</b>Hall '+r.h+', seat '+r.seat+', spent '+fmt(r.sp)+' JC, '+fmt(r.b)+' JC left, '+r.o.length+' lot'+(r.o.length===1?'':'s')))});
+    if(!rows.length)tl.appendChild(el('li','<b>No teams yet</b>Teams appear after they register and get a hall.'));
+    var ca=$('ccat');ca.innerHTML='';
+    SLOTS.forEach(function(sl2,k){var state=k===s?(st.open?'LIVE':'closed'):(k<s?'done':'upcoming');
+      ca.appendChild(el('li','<b>Slot '+(k+1)+' ('+state+')</b>'+sl2.map(function(i){var it=ITEMS[i];return esc(it[1])+' ('+it[3]+' lots, start '+it[4]+' JC)'}).join('; ')))});
+    var sh=$('cshop');sh.innerHTML='';
+    SHOP.forEach(function(i){var it=ITEMS[i];sh.appendChild(el('li','<b>'+esc(it[1])+'</b>'+it[3]+' per hall at '+it[4]+' JC. '+(hs.length?hs.map(function(h){return 'Hall '+h+': '+(it[3]-buys.filter(function(b){return b.item===i&&b.hall===h}).length)+' left'}).join(' | '):'No halls yet')))});
+    var cr=$('cres');cr.innerHTML='';
+    rows.sort(function(a,b){return b.b-a.b}).forEach(function(r,k){cr.appendChild(el('li','<b>'+(k+1)+'. '+esc(r.n)+' (Hall '+r.h+')</b>'+fmt(r.b)+' JC left, '+fmt(r.sp)+' JC spent. '+(r.o.length?r.o.map(function(x){return esc(x.n)+' '+x.p}).join(', '):'No components yet')))});
+    if(!rows.length)cr.appendChild(el('li','<b>No teams yet</b>Standings appear after teams register.'));
+  }
+  function tick(){
+    var c=$('cclock');
+    if(st.open&&st.endsAt){var s=Math.max(0,Math.ceil((st.endsAt-(Date.now()+off))/1000));c.textContent=Math.floor(s/60)+':'+('0'+(s%60)).slice(-2);c.style.color=s<=10?'#C0392B':''}
+    else{c.textContent='-';c.style.color=''}
+  }
+  $('cunlock').addEventListener('click',unlock);
+  $('ckey').addEventListener('keydown',function(e){if(e.key==='Enter')unlock()});
+  $('clock2').addEventListener('click',lock);
+  $('creset').addEventListener('click',function(){if(confirm('Delete all teams, bids, results and purchases and restart the auction? This cannot be undone.'))act('reset').then(function(){alert('Auction reset.')}).catch(function(e){alert(e.message)})});
+  $('cdl').addEventListener('click',async function(){
+    try{var r=await fetch('/api/org/export.csv',{headers:hdr()});if(!r.ok)throw new Error('Could not export');var u=URL.createObjectURL(await r.blob());var a=document.createElement('a');a.href=u;a.download='jido-results.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},1000)}
+    catch(e){alert(e.message)}});
+  document.addEventListener('click',function(e){var b=e.target;if(!b.classList||!b.classList.contains('tab'))return;
+    [].forEach.call(document.querySelectorAll('.tab'),function(x){x.classList.toggle('on',x===b)});
+    [].forEach.call(document.querySelectorAll('.cp'),function(x){x.hidden=x.id!=='p-'+b.dataset.p})});
+  setInterval(tick,500);
+  try{var k=sessionStorage.getItem('jido_org');if(k){$('ckey').value=k;unlock()}}catch(e){}
+})();
+</script>
+</body>
+</html>
