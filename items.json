@@ -1,0 +1,506 @@
+[
+[
+"Controllers",
+"Arduino Nano",
+1,
+12,
+10
+],
+[
+"Controllers",
+"Arduino Uno",
+1,
+12,
+15
+],
+[
+"Controllers",
+"ESP32 DevKit (WiFi + Bluetooth)",
+1,
+8,
+20
+],
+[
+"Controllers",
+"Raspberry Pi Pico",
+1,
+6,
+15
+],
+[
+"Controllers",
+"Raspberry Pi Zero 2 W",
+1,
+3,
+40
+],
+[
+"Controllers",
+"ESP32-CAM",
+1,
+4,
+20
+],
+[
+"Motors & Actuators",
+"BO gear motor (plain)",
+2,
+15,
+8
+],
+[
+"Motors & Actuators",
+"N20 gear motor with encoder",
+2,
+6,
+20
+],
+[
+"Motors & Actuators",
+"12V geared DC motor (high torque)",
+1,
+8,
+15
+],
+[
+"Motors & Actuators",
+"SG90 micro servo",
+2,
+15,
+6
+],
+[
+"Motors & Actuators",
+"MG90S metal-gear servo",
+1,
+10,
+8
+],
+[
+"Motors & Actuators",
+"MG996R high-torque servo",
+1,
+6,
+15
+],
+[
+"Motors & Actuators",
+"Continuous-rotation servo",
+1,
+6,
+6
+],
+[
+"Motors & Actuators",
+"28BYJ-48 stepper + driver",
+1,
+6,
+10
+],
+[
+"Motors & Actuators",
+"Mini linear actuator",
+1,
+3,
+25
+],
+[
+"Motors & Actuators",
+"5V solenoid / latch",
+1,
+4,
+10
+],
+[
+"Motor Drivers",
+"L298N driver",
+1,
+10,
+8
+],
+[
+"Motor Drivers",
+"TB6612 driver",
+1,
+6,
+12
+],
+[
+"Motor Drivers",
+"PCA9685 16-channel servo driver",
+1,
+3,
+15
+],
+[
+"Sensors",
+"IR obstacle sensor",
+2,
+15,
+4
+],
+[
+"Sensors",
+"5-channel IR line array",
+1,
+8,
+12
+],
+[
+"Sensors",
+"HC-SR04 ultrasonic",
+1,
+12,
+6
+],
+[
+"Sensors",
+"VL53L0X time-of-flight distance",
+1,
+5,
+15
+],
+[
+"Sensors",
+"TCS3200 / TCS34725 colour sensor",
+1,
+8,
+12
+],
+[
+"Sensors",
+"MPU6050 gyro + accelerometer",
+1,
+6,
+12
+],
+[
+"Sensors",
+"Wheel speed sensor (slot type)",
+2,
+8,
+5
+],
+[
+"Sensors",
+"LDR light sensor",
+2,
+8,
+2
+],
+[
+"Sensors",
+"Sound sensor",
+1,
+5,
+4
+],
+[
+"Sensors",
+"Hall effect / magnetic sensor",
+1,
+5,
+3
+],
+[
+"Sensors",
+"RFID reader (RC522) + 2 tags",
+1,
+4,
+12
+],
+[
+"Sensors",
+"4x4 keypad",
+1,
+4,
+8
+],
+[
+"Sensors",
+"Load cell + HX711",
+1,
+3,
+15
+],
+[
+"Sensors",
+"Limit / micro switch",
+3,
+10,
+2
+],
+[
+"Sensors",
+"INA219 current/power sensor",
+1,
+4,
+10
+],
+[
+"Power & Energy",
+"4xAA holder + cells (energy unit)",
+1,
+20,
+5
+],
+[
+"Power & Energy",
+"18650 cell + holder",
+1,
+12,
+10
+],
+[
+"Power & Energy",
+"2S LiPo (7.4V)",
+1,
+6,
+20
+],
+[
+"Power & Energy",
+"Power bank (5V)",
+1,
+5,
+20
+],
+[
+"Power & Energy",
+"Supercapacitor module",
+1,
+4,
+10
+],
+[
+"Power & Energy",
+"Small solar panel (6V)",
+1,
+3,
+12
+],
+[
+"Power & Energy",
+"Buck converter",
+1,
+10,
+6
+],
+[
+"Power & Energy",
+"Boost converter",
+1,
+5,
+6
+],
+[
+"Chassis & Mechanical",
+"2WD chassis kit",
+1,
+10,
+12
+],
+[
+"Chassis & Mechanical",
+"4WD chassis kit",
+1,
+5,
+25
+],
+[
+"Chassis & Mechanical",
+"Wheel pair + caster",
+1,
+12,
+5
+],
+[
+"Chassis & Mechanical",
+"Rubber track / crawler set",
+1,
+3,
+15
+],
+[
+"Chassis & Mechanical",
+"Acrylic / foam board sheet (A4)",
+1,
+15,
+5
+],
+[
+"Chassis & Mechanical",
+"Gripper arm (3D-printed)",
+1,
+6,
+15
+],
+[
+"Chassis & Mechanical",
+"Gear + pulley set",
+1,
+6,
+8
+],
+[
+"Chassis & Mechanical",
+"Conveyor belt strip + rollers",
+1,
+3,
+15
+],
+[
+"Chassis & Mechanical",
+"Gimbal / stabiliser frame",
+1,
+3,
+12
+],
+[
+"Chassis & Mechanical",
+"Spring + suspension pack",
+1,
+6,
+5
+],
+[
+"Chassis & Mechanical",
+"Screws, nuts, standoffs kit",
+1,
+15,
+4
+],
+[
+"Chassis & Mechanical",
+"Cup holder / cargo tray",
+1,
+8,
+4
+],
+[
+"Communication & Control",
+"HC-05 Bluetooth module",
+1,
+8,
+10
+],
+[
+"Communication & Control",
+"nRF24L01 radio pair",
+1,
+4,
+12
+],
+[
+"Communication & Control",
+"Joystick module",
+2,
+6,
+6
+],
+[
+"Communication & Control",
+"RF remote + receiver",
+1,
+3,
+15
+],
+[
+"Communication & Control",
+"Potentiometer / push-button pack",
+1,
+8,
+3
+],
+[
+"Display & Indicators",
+"16x2 I2C LCD",
+1,
+8,
+8
+],
+[
+"Display & Indicators",
+"0.96\" OLED",
+1,
+8,
+10
+],
+[
+"Display & Indicators",
+"2.4\" TFT display",
+1,
+3,
+20
+],
+[
+"Display & Indicators",
+"Buzzer + LED pack",
+1,
+12,
+3
+],
+[
+"Wiring & Basics",
+"Breadboard",
+1,
+15,
+4
+],
+[
+"Wiring & Basics",
+"Jumper wire pack (40 pcs)",
+1,
+15,
+4
+],
+[
+"Wiring & Basics",
+"Perfboard + header pins",
+1,
+8,
+4
+],
+[
+"Wiring & Basics",
+"Switch + connector pack",
+1,
+10,
+3
+],
+[
+"Wiring & Basics",
+"Zip ties, tape, heat-shrink",
+1,
+15,
+2
+],
+[
+"Strategy Lots",
+"Mystery crate (3-5 random parts)",
+1,
+6,
+10
+],
+[
+"Strategy Lots",
+"Tool rental token (10 min soldering / hot glue)",
+1,
+6,
+5
+],
+[
+"Strategy Lots",
+"Extra build time token (+5 min)",
+1,
+4,
+15
+],
+[
+"Strategy Lots",
+"Spare part insurance (swap one failed part once)",
+1,
+6,
+8
+]
+]

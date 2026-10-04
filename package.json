@@ -1,0 +1,10 @@
+{
+  "name": "jido-auction-server",
+  "version": "1.0.0",
+  "description": "Live multi-hall engineering auction for JIDO",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" },
+  "license": "UNLICENSED",
+  "private": true
+}
