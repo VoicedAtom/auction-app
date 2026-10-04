@@ -1,0 +1,18 @@
+# Render blueprint. Create a new "Blueprint" from your GitHub repo and Render reads this file.
+services:
+  - type: web
+    name: jido-auction
+    runtime: docker
+    plan: starter            # a paid plan: needed for a disk and so the site never sleeps
+    healthCheckPath: /healthz
+    disk:
+      name: jido-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: ORGANISER_KEY
+        sync: false          # Render asks you for this value when you create the service
+      - key: TRUST_PROXY
+        value: "1"
+      - key: DATA_DIR
+        value: /data
